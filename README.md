@@ -31,3 +31,12 @@ TreeExplainer SHAP values decouple non-linear clinical risk drivers, ensuring gr
 
 ### Bedside Case Attribution (Local Patient 0)
 ![SHAP Waterfall](reports/shap_waterfall_patient_0.png)
+## Clinical Utility & Model Reliability
+
+### Probabilistic Calibration
+Evaluates whether predicted probabilities match empirical risk across bins:
+![Reliability Diagram](reports/calibration_curve.png)
+
+### Decision Curve Analysis (DCA)
+Quantifies clinical net benefit against default "treat all" or "treat none" policies across decision thresholds ($p_t$):
+![Decision Curve Analysis](reports/decision_curve_analysis.png)

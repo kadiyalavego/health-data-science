@@ -6,10 +6,11 @@ from src.data import load_multimodal_cohort
 from src.features import engineer_clinical_features
 from src.models import ClinicalRiskPipeline, train_xgboost_model
 from src.explainability import generate_shap_explanations
+from src.evaluation import plot_calibration_curve, plot_decision_curve
 
 def run_pipeline():
     print("\n==========================================")
-    print(" Executing Clinical ML & SHAP Pipeline")
+    print(" Executing Clinical ML, SHAP & DCA Pipeline")
     print("==========================================\n")
     
     # 1. Ingestion
@@ -31,12 +32,18 @@ def run_pipeline():
     
     # 4. Non-Linear Modeling (XGBoost)
     xgb_model, xgb_auc = train_xgboost_model(X_train, y_train, X_test, y_test)
+    y_test_probs = xgb_model.predict_proba(X_test)[:, 1]
     
     # 5. Model Explainability (SHAP)
     print("\nGenerating bedside SHAP feature attribution reports...")
     generate_shap_explanations(xgb_model, X_train, X_test)
+
+    # 6. Clinical Utility & Calibration
+    print("\nGenerating Calibration & Decision Curve Analysis...")
+    plot_calibration_curve(y_test, y_test_probs)
+    plot_decision_curve(y_test, y_test_probs)
     
-    print("\nPipeline execution complete. Reports saved to 'reports/' directory.\n")
+    print("\nPipeline execution complete. All clinical reports saved to 'reports/' directory.\n")
 
 if __name__ == "__main__":
     run_pipeline()
