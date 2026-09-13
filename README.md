@@ -22,4 +22,12 @@ health-data-science/
     ├── __init__.py
     ├── data.py              # SQL ingestion & cohort extraction
     ├── features.py          # Biomarker trajectory deltas & MNAR encoding
-    └── models.py            # Leakage-free scaling, classification & odds ratios
+    └── models.py            # Leakage-free scaling, classification & odds ratios## Model Explainability (Bedside Decision Support)
+
+TreeExplainer SHAP values decouple non-linear clinical risk drivers, ensuring gradient-boosted trees remain interpretable:
+
+### Cohort Risk Attribution (Global)
+![SHAP Summary](reports/shap_summary.png)
+
+### Bedside Case Attribution (Local Patient 0)
+![SHAP Waterfall](reports/shap_waterfall_patient_0.png)
