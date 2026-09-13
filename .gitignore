@@ -1,0 +1,21 @@
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Python Bytecode & Caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Clinical Database (protect raw & synthetic clinical records)
+*.db
+*.sqlite
+*.sqlite3
+
+# Editor Configurations
+.vscode/
+.idea/
+
+# Streamlit logs
+.streamlit/
