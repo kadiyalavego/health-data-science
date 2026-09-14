@@ -39,4 +39,12 @@ Evaluates whether predicted probabilities match empirical risk across bins:
 
 ### Decision Curve Analysis (DCA)
 Quantifies clinical net benefit against default "treat all" or "treat none" policies across decision thresholds ($p_t$):
-![Decision Curve Analysis](reports/decision_curve_analysis.png)
+![Decision Curve Analysis](reports/decision_curve_analysis.png)## Time-to-Event Survival Analysis
+
+### Longitudinal Inpatient Stratification (Kaplan-Meier)
+Evaluates event-free probability (uncomplicated discharge) across hospital stay durations, stratified by acute renal deterioration ($\Delta$ Creatinine $\ge 0.3$ mg/dL):
+
+![Kaplan-Meier Survival Analysis](reports/kaplan_meier_survival.png)
+
+* **Biostatistical Utility**: Identifies high-risk inpatient cohorts experiencing delayed discharge and acute decompensation earlier in the admission timeline.
+* **Cox Proportional Hazards**: Quantifies adjusted Hazard Ratios (HR) across clinical covariates (age, renal shift, hemodynamics).

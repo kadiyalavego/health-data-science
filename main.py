@@ -7,18 +7,19 @@ from src.features import engineer_clinical_features
 from src.models import ClinicalRiskPipeline, train_xgboost_model
 from src.explainability import generate_shap_explanations
 from src.evaluation import plot_calibration_curve, plot_decision_curve
+from src.survival import prepare_survival_data, plot_kaplan_meier_stratified, fit_cox_proportional_hazards
 
 def run_pipeline():
-    print("\n==========================================")
-    print(" Executing Clinical ML, SHAP & DCA Pipeline")
-    print("==========================================\n")
+    print("\n========================================================")
+    print(" Executing Clinical ML, Explainability & Survival Suite")
+    print("========================================================\n")
     
     # 1. Ingestion
     print("Loading multimodal patient cohort...")
-    df = load_multimodal_cohort("clinical_data.db")
+    raw_df = load_multimodal_cohort("clinical_data.db")
     
     # 2. Feature Engineering
-    X, y, feature_names = engineer_clinical_features(df)
+    X, y, feature_names = engineer_clinical_features(raw_df)
     
     # Stratified Train/Test Split
     X_train, X_test, y_train, y_test = train_test_split(
@@ -42,6 +43,16 @@ def run_pipeline():
     print("\nGenerating Calibration & Decision Curve Analysis...")
     plot_calibration_curve(y_test, y_test_probs)
     plot_decision_curve(y_test, y_test_probs)
+    
+    # 7. Time-to-Event Survival Analysis
+    print("\nExecuting Survival Analysis (Kaplan-Meier & Cox PH)...")
+    surv_df = prepare_survival_data(raw_df)
+    plot_kaplan_meier_stratified(surv_df)
+    
+    # Fit Cox model on available numeric predictors
+    covariates = [col for col in ["age", "delta_creatinine_48h", "systolic_bp"] if col in surv_df.columns]
+    if covariates:
+        fit_cox_proportional_hazards(surv_df, covariates)
     
     print("\nPipeline execution complete. All clinical reports saved to 'reports/' directory.\n")
 
