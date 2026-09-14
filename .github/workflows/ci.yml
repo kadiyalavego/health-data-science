@@ -24,10 +24,11 @@ jobs:
         pip install -r requirements.txt
         pip install pytest
 
-    - name: Ensure Synthetic Database & Directory Exist
+    - name: Initialize Database Schema & Cohort
       run: |
         mkdir -p reports
-        python -c "import os; from generate_synthetic_ehr import generate_synthetic_ehr_data; generate_synthetic_ehr_data('clinical_data.db') if not os.path.exists('clinical_data.db') else None"
+        python setup_week1_db.py
+        python generate_synthetic_ehr.py
 
     - name: Execute Full Clinical Pipeline
       env:
