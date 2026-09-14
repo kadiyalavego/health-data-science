@@ -24,11 +24,9 @@ jobs:
         pip install -r requirements.txt
         pip install pytest
 
-    - name: Initialize Database Schema & Cohort
+    - name: Ensure Output Reports Directory
       run: |
         mkdir -p reports
-        python setup_week1_db.py
-        python generate_synthetic_ehr.py
 
     - name: Execute Full Clinical Pipeline
       env:
